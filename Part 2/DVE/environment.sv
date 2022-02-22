@@ -26,10 +26,10 @@ class environment;
   	this.vif = vif;
   	gen2drv = new();
   	mnt2scb = new();
-    drv = new(vif,gen2drv,0);
-    mnt = new(vif,mnt2scb,0);
-    gen = new(gen2drv,0);
-    scb = new(mnt2scb,0);
+    drv = new(vif,gen2drv,0); // to debug pass third argument 1 otherwise 0
+    mnt = new(vif,mnt2scb,0); // to debug pass third argument 1 otherwise 0
+    gen = new(gen2drv,0);	  	// to debug pass third argument 1 otherwise 0
+    scb = new(mnt2scb,0);	  	// to debug pass third argument 1 otherwise 0
   endfunction
   
   //pre_test methods
