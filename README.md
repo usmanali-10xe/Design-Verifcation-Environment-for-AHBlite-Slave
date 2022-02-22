@@ -27,3 +27,21 @@ The test is responsible for creating the environment and initiating the stimulus
 - **Testbench Top**
 This is the topmost file, which connects the DUT and Test. It consists of DUT, Test and
 interface instances. The interface connects the DUT and Test.
+
+For initial understanding, You can run the light version of environment with following constraints:
+1.  No bursts
+2.  Transfer types with weightages:
+    - IDLE - 10%
+    - BUSY - 10 %
+    - NONSEQUENTIAL - 80%
+3.  Address aligned w.r.t. Size
+4.  Protection control for Data Access only
+5.  Transfer sizes of byte, half word and word only
+
+EDAplaygroung link for light version: https://www.edaplayground.com/x/BUCj
+
+For detailed understanding of environment as well as how to generate sequences:
+
+EDAplaygroung link for light version: https://www.edaplayground.com/x/paNX
+
+To avoid the printing of coverage report uncheck _Use run.do Tcl file_ option.
