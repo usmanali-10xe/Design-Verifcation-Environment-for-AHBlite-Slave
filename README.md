@@ -42,6 +42,6 @@ EDAplaygroung link for light version: https://www.edaplayground.com/x/BUCj
 
 For detailed understanding of environment as well as how to generate sequences:
 
-EDAplaygroung link for light version: https://www.edaplayground.com/x/paNX
+EDAplaygroung link for full version: https://www.edaplayground.com/x/paNX
 
 To avoid the printing of coverage report uncheck _Use run.do Tcl file_ option.
