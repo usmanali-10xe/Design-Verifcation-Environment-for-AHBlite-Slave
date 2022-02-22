@@ -18,7 +18,7 @@ class scoreboard;
   //main method
     task main;
     transaction trans;
-    cg  = new(0);
+    cg  = new(1);
     for(int j=0;j<1023;j=j+1) 
     	mem[j]=j;
     forever begin: continous
@@ -27,10 +27,10 @@ class scoreboard;
         if(trans.hresetn) begin: active
           if(trans.error) begin: error
             case({trans.hresp, trans.hready})
-              2'b00: if (debug) $display($time,": [ScoreBoard]| error could not be asserted, Transfer pending");
-              2'b01: if (debug) $display($time,": [ScoreBoard]| error could not be asserted, Successful transfer completed");
-              2'b10: if (debug) $display($time,": [ScoreBoard]| ERROR response, first cycle");
-              2'b10: if (debug) $display($time,": [ScoreBoard]| ERROR response, second cycle");
+              2'b00: $display($time,": [ScoreBoard]| error could not be asserted, Transfer pending");
+              2'b01: $display($time,": [ScoreBoard]| error could not be asserted, Successful transfer completed");
+              2'b10: $display($time,": [ScoreBoard]| ERROR response, first cycle");
+              2'b10: $display($time,": [ScoreBoard]| ERROR response, second cycle");
             endcase
           end: error
           else begin: normal

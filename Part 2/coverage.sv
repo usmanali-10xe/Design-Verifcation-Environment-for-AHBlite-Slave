@@ -42,7 +42,8 @@ class coverage;
       bins			burst2single[] = ([`H_INCR:`H_INCR16]=>`H_SINGLE);                       
     }
     slave_signalling:	coverpoint {trans.hresp,trans.hready}{
-      bins  error_cycels = (2'b10 => 2'b11);
+      bins 	error_cycels1 = (2'b01=>2'b10);
+      bins  error_cycels2 = (2'b10 => 2'b11);
       bins  pending_to_success = (2'b00 => 2'b01);
     }
                     

@@ -169,6 +169,10 @@ class generator;
     seed = 10;    
     $display($time,": [Generator ]| Eight-beat wrapping burst, WRAP8: READ..........");
     repeat(1) wrap8(0); // reading
+    $display($time,": [Generator ]| Error Signal asserted to check the response..........");
+    repeat(1) error(); // reading
+    $display($time,": [Generator ]| Error Signal asserted to check the response..........");
+    repeat(1) rdata(); // reading
     ->gdone; //triggering indicatesthe end of generation 
   endtask
   

@@ -20,7 +20,7 @@ class monitor;
     forever begin
       transaction trans;
       trans = new();
-      @(`MONITOR_cb);
+      //@(`MONITOR_cb);
         trans.hresetn = vif.hresetn;
         trans.hsel  = `MONITOR_cb.hsel;
         trans.haddr = `MONITOR_cb.haddr;
@@ -34,7 +34,7 @@ class monitor;
       @(`MONITOR_cb);
       	//wait(`MONITOR_cb.hready);
         trans.hwdata = `MONITOR_cb.hwdata;
-	 	trans.hrdata = `MONITOR_cb.hrdata;
+	 			trans.hrdata = `MONITOR_cb.hrdata;
       	trans.hready = `MONITOR_cb.hready;
       	trans.hresp  = `MONITOR_cb.hresp;
      // wait(`MONITOR_cb.hready);
