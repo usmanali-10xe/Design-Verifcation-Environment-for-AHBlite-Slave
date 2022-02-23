@@ -38,7 +38,7 @@ class monitor;
       	trans.hready = `MONITOR_cb.hready;
       	trans.hresp  = `MONITOR_cb.hresp;
      // wait(`MONITOR_cb.hready);
-      @(`MONITOR_cb);
+      //@(`MONITOR_cb);
       	mmb.put(trans);
         trans.print_trans("[Monitor   ]", debug);
     end
