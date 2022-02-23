@@ -28,8 +28,8 @@ class environment;
   	mnt2scb = new();
     drv = new(vif,gen2drv,0); // to debug pass third argument 1 otherwise 0
     mnt = new(vif,mnt2scb,0); // to debug pass third argument 1 otherwise 0
-    gen = new(gen2drv,0);	  	// to debug pass third argument 1 otherwise 0
-    scb = new(mnt2scb,0);	  	// to debug pass third argument 1 otherwise 0
+    gen = new(gen2drv,0);// to debug pass third argument 1 otherwise 0
+    scb = new(mnt2scb,0);// to debug pass third argument 1 otherwise 0
   endfunction
   
   //pre_test methods
@@ -50,8 +50,15 @@ class environment;
   //post_test methods
   task post_test();
     wait(gen.gdone.triggered);
-	wait(gen.repeat_count == drv.trans_count); //Optional
+    wait(gen.repeat_count == drv.trans_count); //Optional
     wait(gen.repeat_count == scb.trans_count);
+    $display("--------------------------------------------------------------------------------------------");
+    $display($time,": [Environment] Total number of Transfers:   %3d",scb.trans_count);
+    $display($time,": [Environment] Total Success R/W Transfers: %3d",scb.trans_success);
+    $display($time,": [Environment] Total Failed R/W Transfers:  %3d",scb.trans_failed);
+    $display($time,": [Environment] Total IDLE Trans Transfers:  %3d",scb.trans_idle);
+    $display($time,": [Environment] Total BUSY Trans Transfers:  %3d",scb.trans_busy);
+    $display("--------------------------------------------------------------------------------------------");
   endtask
   
   //run methods
