@@ -36,9 +36,9 @@ class driver;
 	task drive;
       transaction trans;
       dmb.get(trans);
-			// @(`DRIVER_cb);
-      	vif.hresetn		 <= trans.hresetn;
-    		`DRIVER_cb.hsel  <= trans.hsel;
+	// @(`DRIVER_cb);
+      	vif.hresetn <= trans.hresetn;
+    	`DRIVER_cb.hsel  <= trans.hsel;
         `DRIVER_cb.haddr <= trans.haddr;
         `DRIVER_cb.htrans<= trans.htrans;
       	`DRIVER_cb.hwrite<= trans.hwrite;
@@ -52,7 +52,7 @@ class driver;
         `DRIVER_cb.hwdata<= trans.hwdata;
       trans.print_trans("[Driver    ]", debug);
       	//wait(`DRIVER_cb.hready);
-      @(`DRIVER_cb);
+      //@(`DRIVER_cb);
      	trans_count++;
   endtask
   //main methods
