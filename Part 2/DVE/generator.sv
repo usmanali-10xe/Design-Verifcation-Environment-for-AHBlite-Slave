@@ -125,7 +125,11 @@ class generator;
       trans.hwrite = write; // depends on Read/write command
       trans.hburst = `H_WRAP8;
       addr = addr+ 2**size; // update addr var
-      trans.haddr[2:0] = addr&3'b111; // increment by transfer sizes
+      case(size)
+        0:trans.haddr[2:0] = addr&3'b111; // increment by transfer sizes
+        1:trans.haddr[3:0] = addr&3'b1111; // increment by transfer sizes
+        2:trans.haddr[4:0] = addr&3'b11111; // increment by transfer sizes
+      endcase
       count_transaction();	
     end
   endtask
@@ -148,10 +152,10 @@ class generator;
     repeat(10) incr(0,3); // reading
     seed = 10;
     $display($time,": [Generator ]| Eight-beat wrapping burst, WRAP8: WRITE...........");
-    repeat(1) wrap8(1); // writing
+    repeat(4) wrap8(1); // writing
     seed = 10;    
     $display($time,": [Generator ]| Eight-beat wrapping burst, WRAP8: READ............");
-    repeat(1) wrap8(0); // reading
+    repeat(4) wrap8(0); // reading
     $display($time,": [Generator ]| Error Signal asserted to check the response.......");
     repeat(1) error(); // rerror assertion
     $display($time,": [Generator ]| Reading byte randomly.............................");
