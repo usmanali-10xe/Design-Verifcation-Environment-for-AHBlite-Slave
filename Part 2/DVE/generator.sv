@@ -29,8 +29,18 @@ class generator;
     if(!trans.randomize())
        $fatal($time,": [Generator]| randomization failed...");
     trans.hsel = 1;
+    trans.hresetn=1; // reset assertion
+    trans.error=0; // error disassertion
+    trans.htrans = 0; // making sure transfer is idle for first cycle of pipeline
+    count_transaction(); //since our data and address phases are pipelined we are generating two transaction for reset sequence
+    trans = new(seed++);
+    if(!trans.randomize())
+       $fatal($time,": [Generator]| randomization failed...");
+    trans.hsel = 1;
     trans.hresetn=0; // reset assertion
     trans.error=0; // error disassertion
+    trans.hwrite = 0; //trying to read while reset
+    trans.htrans = 2; // non-sequential read
     count_transaction();
   endtask
   task error; // assert error to observe response
@@ -122,13 +132,12 @@ class generator;
 
   task main;
     $display("--------------------------------------------------------------------------------------------");
-    seed = 1;
+   // seed = 1;
     $display($time,": [Generator ]| Writing bytes, halfwords and words randomly.......");
-    repeat(10) r_wdata(1);// simple single burst write: BYTES, HALFS, WORDS
-    seed = 1;
+    repeat(400) r_wdata(1);// simple single burst write: BYTES, HALFS, WORDS
+    //seed = 1;
     $display($time,": [Generator ]| Reading bytes, halfwords and words randomly.......");
-    repeat(10) r_wdata(0);// simple single burst read: BYTES, HALFS, WORDS
-    seed = 1;
+    repeat(400) r_wdata(0);// simple single burst read: BYTES, HALFS, WORDS
     $display($time,": [Generator ]| Resetting DUT.....................................");
     repeat(1) reset(); // reset and read bus data
     seed = 1;
@@ -145,9 +154,8 @@ class generator;
     repeat(1) wrap8(0); // reading
     $display($time,": [Generator ]| Error Signal asserted to check the response.......");
     repeat(1) error(); // rerror assertion
-    seed=1;
     $display($time,": [Generator ]| Reading byte randomly.............................");
-    repeat(1) r_wdata(0); 
+    repeat(1) r_wdata(0); //must show an error as it is being asserted in second cycle of error
     $display($time,": [Generator ]| Resetting DUT.....................................");
     repeat(1) reset(); // reset and read bus data
 	$display("--------------------------------------------------------------------------------------------");
