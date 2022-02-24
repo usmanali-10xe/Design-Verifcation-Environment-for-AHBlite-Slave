@@ -13,7 +13,7 @@ class scoreboard;
   // debug to monitor
   	bit debug;
   //array to use as local memory
-  bit [7:0]  mem [1023];
+  logic [7:0]  mem [1023];
   //constructor
   function new(input mailbox mbx, bit debug=0);
 		this.smb = mbx;
@@ -23,13 +23,13 @@ class scoreboard;
   task main;
     transaction trans;
     cg  = new(1);
-    for(int j=0;j<256;j=j+1) 
+    for(int j=0;j<1023;j=j+1) 
       mem[j]=j;
     forever begin: continous
       smb.get(trans); 
       if(trans.hsel) begin: selected
         if(trans.hresetn) begin: active
-          
+   
           if(trans.error) begin: error
             case({trans.hresp, trans.hready})
               2'b00: $error($time,": [ScoreBoard]| error could not be asserted, Transfer pending");
@@ -75,7 +75,7 @@ class scoreboard;
               `H_SIZE_16: begin
                 unique case(trans.haddr[1])
                   0: {mem[trans.haddr+1],mem[trans.haddr]} = trans.hwdata[15:0]; 
-                  1: {mem[trans.haddr+3],mem[trans.haddr+2]} = trans.hwdata[31:16];
+                  1: {mem[trans.haddr+1],mem[trans.haddr]} = trans.hwdata[31:16];
                 endcase
               end
               `H_SIZE_8: begin
@@ -90,13 +90,13 @@ class scoreboard;
           end: write
 
           if((trans.htrans == `H_NONSEQ || trans.htrans == `H_SEQ)&& (trans.hresp== `H_OKAY) && (trans.hwrite==0)) begin: read
-            bit [`DW-1:0] expdata;
+            logic [`DW-1:0] expdata;
             unique case (trans.hsize)
               `H_SIZE_32: expdata = {mem[trans.haddr+3],mem[trans.haddr+2],mem[trans.haddr+1],mem[trans.haddr]};  
               `H_SIZE_16: begin
 				unique case(trans.haddr[1])
                   0: expdata = {8'bx, 8'bx,   mem[trans.haddr+1], mem[trans.haddr]};
-                  1: expdata = {mem[trans.haddr+3], mem[trans.haddr+2], 8'bx, 8'bx};
+                  1: expdata = {mem[trans.haddr+1], mem[trans.haddr], 8'bx, 8'bx};
                 endcase
               end
               `H_SIZE_8: begin
@@ -120,10 +120,10 @@ class scoreboard;
         end: active
         else begin: reset
           $display($time,": [ScoreBoard]| Reset is asserted.......");
-          for(int j=0;j<256;j=j+1) 
+          for(int j=0;j<1023;j=j+1) 
             mem[j]=j;
           if(~trans.hwrite & trans.htrans>1 )
-            $display($time,": [ScoreBoard]| Reset is Successfull: %0s",((trans.hrdata==='x)? "TRUE": "FALSE"));
+            $display($time,": [ScoreBoard]| Reset is Successfull: %0s", (trans.hrdata==='x)? "TRUE":"FALSE");
           else 
             $display($time,": [ScoreBoard]| Next read with same transaction must show reset memory.......");
         end: reset
