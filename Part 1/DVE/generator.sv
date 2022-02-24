@@ -17,7 +17,7 @@ class generator;
   
   //main methods
   task main;
-    int count=0;
+    int count=1;
     $display("[Generator ]| Writing bytes randomly..........");
     repeat(repeat_count/6) begin
       trans = new(count++);
@@ -33,7 +33,7 @@ class generator;
         gmb.put(trans);
       end
     end
-    count = 0;
+    count = 1;
     $display("[Generator ]| Reading bytes with same writing sequence..........");
     repeat(repeat_count/6) begin
       trans = new(count++);
@@ -49,7 +49,7 @@ class generator;
         gmb.put(trans);
       end
     end
-    count = 0;
+    count = 1;
     $display("[Generator ]| Writing halfwords randomly..........");
     repeat(repeat_count/6) begin
       trans = new(count++);
@@ -61,11 +61,12 @@ class generator;
         trans.hwrite = 1;
         trans.hrdata = 'z;
         trans.hsize = 1;
+        trans.haddr[0] = 0;
         trans.print_trans("[Generator ]", '0);
         gmb.put(trans);
       end
     end
-    count = 0;
+    count = 1;
     $display("[Generator ]| Reading halfwords with same writing sequence..........");
     repeat(repeat_count/6) begin
       trans = new(count++);
@@ -77,11 +78,12 @@ class generator;
         trans.hwrite = 0;
         trans.hwdata = 'x;
         trans.hsize = 1;
+        trans.haddr[0] = 0; 
         trans.print_trans("[Generator ]", '0);
         gmb.put(trans);
       end
     end
-    count = 0;
+    count = 1;
     $display("[Generator ]| Writing bytes, halfwords and words randomly..........");
     repeat(repeat_count/6) begin
       trans = new(count++);
@@ -96,7 +98,7 @@ class generator;
         gmb.put(trans);
       end
     end
-   // count = 0;
+   count = 1;
     $display("[Generator ]| Reading bytes, halfwords and words randomly..........");
     repeat(repeat_count/6) begin
       trans = new(count++);
